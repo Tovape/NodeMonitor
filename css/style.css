@@ -1,0 +1,210 @@
+:root {
+	
+	/* Colors */
+	
+	--primary: #292933;
+	--secondary: #0084ff;
+	--tertiary: #131318;
+	--white: #ffffff;
+	--gray: #a6a6aa;
+	--black: #000000;
+	--yellow: #ffb81f;
+	--orange: #fe7e38;
+	--green: #2cbc63;
+	--blue: #027ff2;
+	
+	/* Shadow */
+	
+	--shadowbar: rgba(0,0,0,0.2);
+	--shadowlow: rgba(0,0,0,0.4);
+	--shadowmid: rgba(0,0,0,0.6);
+	--shadowhig: rgba(0,0,0,0.8);
+	
+	/* Font Size */
+	--impfont: 48px;
+	--bigfont: 36px;
+	--cusfont: 30px;
+	--medfont: 26px;
+	--undfont: 20px;
+	--smafont: 16px;
+	--micfont: 10px;
+	
+	/* Other */
+	--radius: 4px;
+	
+	/* Font */
+	--montserrat: 'Montserrat', sans-serif;
+	
+}
+
+/* Element Configuration */
+
+html {
+	margin: 0px;
+	padding: 0px;
+	zoom: 100%; 
+	height: 100%;
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
+
+a {
+	text-decoration: none;
+	margin: 0;
+	font-family: var(--montserrat);
+}
+
+p {
+	margin: 0;
+	font-family: var(--montserrat);
+}
+
+/* Scroll Bar Configuration */
+
+body::-webkit-scrollbar {
+	width: 10px;
+}
+ 
+body::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+body::-webkit-scrollbar-thumb {
+	background-color: var(--primary);
+	border-radius: 0;
+}
+
+/* Selection Configuration */
+
+::-moz-selection {
+	background: rgba(39,59,69,0.1);
+}
+
+::selection {
+	background: rgba(39,59,69,0.1);
+}
+
+/* Class Configuration */
+
+.body-aligner {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+.main-sidebar {
+	background-color: var(--primary);
+	width: 280px;
+}
+
+.main-sidebar-logo {
+	padding: 20px;
+	width: calc(100% - 40px);
+	border-bottom: 5px solid var(--tertiary);
+}
+
+.main-sidebar-logo img {
+	width: 100%;
+}
+
+.main-sidebar-menu {
+	overflow-y: visible;
+}
+
+.main-sidebar-menu-each {
+	padding: 20px;
+	border-radius: var(--radius);
+	width: calc(100% - 60px);
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+    align-items: center;
+	transition: all 0.1s ease-in-out;
+	-webkit-transition: all 0.1s ease-in-out;
+}
+
+.main-sidebar-menu-each span {
+	height: 10px;
+	width: 10px;
+	background-color: var(--secondary);
+	box-shadow: 0px 0px 5px var(--secondary);
+	border-radius: 10px;
+	display: none;
+}
+
+.main-sidebar-menu-each svg {
+	width: 25px;
+	height: 25px;
+}
+
+.main-sidebar-menu-each p {
+	padding-left: 20px;
+	color: var(--white);
+	font-size: var(--smafont);
+}
+
+.main-sidebar-menu-each.active span {
+	display: block;
+}
+
+.main-sidebar-menu-each.active p {
+	filter: drop-shadow(0px 0px 5px var(--secondary));
+	color: var(--secondary);
+}
+
+.main-sidebar-menu-each.active svg {
+	filter: drop-shadow(0px 0px 5px var(--secondary));
+	fill: var(--secondary);
+}
+
+.main-sidebar-menu-each div {
+	display: flex;
+    align-items: center;
+}
+
+.main-sidebar-menu-each:hover {
+	transition: all 0.1s ease-in-out;
+	-webkit-transition: all 0.1s ease-in-out;	
+}
+
+.main-sidebar-menu-each:active {
+	
+}
+
+.main-content {
+	background-color: var(--tertiary);
+	width: calc(100% - 280px);
+}
+
+.main-content-page {
+	
+}
+
+.main-content-title {
+	
+}
+	
+.main-content-title p {
+	
+}
+
+.main-content-scrollable {
+	
+}
+
+.dashboard-mainstats {
+	
+}
+
+/*
+cpu yellow
+battery orange
+ram green
+network blue
+temp - death note image
+*/
