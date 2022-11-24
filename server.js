@@ -7,6 +7,11 @@ const busboy = require('connect-busboy')
 const bodyParser = require('body-parser')
 const favicon = require('serve-favicon')
 const os = require('os');
+const osu = require('node-os-utils')
+const cpu = osu.cpu
+const ping = require('ping');
+var cputemp = null;
+var networktemp = null;
 
 // Port
 app.listen(process.env.PORT);
@@ -23,14 +28,20 @@ app.use(favicon(__dirname + '/img/logo/logo-icon.ico'));
 app.use(busboy());
 
 // Data
-var staticdata = [{id: 1, cpu: os.cpus()}]; 
+var staticdata = [{id: 1, cpu: os.cpus(), ram: (os.totalmem() / 1000 / 1000 / 1000).toFixed(2)}]; 
 var data = [{id: 1, freeram: null}];
 
 var intervalId = setInterval(function() {
+	cpu.usage().then(cpuPercentage => {
+		cputemp = cpuPercentage;
+	})
+	netstat.inOut().then(info => {
+		networktemp = info;
+	})
 	data = [
-		{id: 1, freeram: os.freemem()}
+		{id: 1, freeram: (os.freemem() / 1000 / 1000 / 1000).toFixed(2), cpusage: cputemp, network: networktemp}
 	];
-}, 3000);
+}, 2000);
 
 // Get
 app.get(['/', '/index'], function (req, res) {
