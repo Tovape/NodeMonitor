@@ -10,6 +10,7 @@
     "os-utils": "^0.0.14",
     "path": "^0.12.7",
     "ping": "^0.4.2",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "systeminformation": "^5.14.4"
   }
 }

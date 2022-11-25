@@ -14,6 +14,7 @@ var gpuchartext = null;
 var hddchartdom = null;
 var hddchart = null;
 var hddchartext = null;
+var networkserverpoint = null;
 var networkserverdom = null;
 var cross = null;
 var bars = null;
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	ramchartext = document.getElementById("ram-chart-text");
 	gpuchartext = document.getElementById("gpu-chart-text");
 	hddchartext = document.getElementById("hdd-chart-text");
-	networkserverdom = document.getElementById("network-server");
+	networkserverpoint = document.getElementById("dashboard-network-flex");
 	cross = document.getElementById("menu-cross");
 	bars = document.getElementById("menu-bars");
 	dropmenu = document.getElementById("responsive-menu");
@@ -78,7 +79,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	// Updates
 	var intervalId = window.setInterval(function(){
 		fetchWait();
-		updateUI(data);
+		if (data != null) {updateUI(data)}
+	}, updatespeed);
+
+	var staticIntervalId = window.setInterval(function(){
+		if (data != null) {
+			staticUI(data);
+			clearInterval(staticIntervalId)
+		}
 	}, updatespeed);	
 	
 	/* Dashboard */
@@ -149,7 +157,13 @@ function updateUI(data) {
 	if (data[0].cpusage != undefined) {cpuchartext.textContent = data[0].cpusage + "%";}
 	if (data[0].freeram != undefined) {ramchartext.textContent = (100 - (data[0].freeram*100/rampercentage)).toFixed(2) + "%";}
 	// Network
-	if (data[0].network != undefined) {console.log("wifi")} else {console.log("nowifi")}
+	for (let i = 0; i < Object.entries(JSON.parse(data[0].network)).length; i++) {
+		if (JSON.parse(data[0].network)[Object.keys(JSON.parse(data[0].network))[i]][0] === true) {
+			networkserverdom[i].querySelector("span").classList.add("active");
+		} else {
+			networkserverdom[i].querySelector("span").classList.remove("active");
+		}
+	}
 	// CPU Chart
     if (data[0].cpusage != undefined) {
 		cpuchart.data.datasets.forEach((dataset) => {
@@ -166,6 +180,15 @@ function updateUI(data) {
 		});
 		ramchart.update();
 	}
+}
+
+// Update Static
+function staticUI(data) {
+	// Set Network Dom
+	for (var key in JSON.parse(data[0].network)) {
+		networkserverpoint.innerHTML += "<div class='dashboard-network-each'><p>" + key + "</p><span>&nbsp;</span></div>";
+	}
+	networkserverdom = document.querySelectorAll(".dashboard-network-each");
 }
 
 // Responsive Menu

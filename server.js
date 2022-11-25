@@ -10,8 +10,10 @@ const os = require('os');
 const osu = require('node-os-utils')
 const cpu = osu.cpu
 const ping = require('ping');
+const si = require('systeminformation');
 var cputemp = null;
-var networktemp = null;
+var networkhosts = [process.env.ROUTER, 'google.com', 'espanastore.es'];
+var networktemp = {};
 
 // Port
 app.listen(process.env.PORT);
@@ -35,13 +37,13 @@ var intervalId = setInterval(function() {
 	cpu.usage().then(cpuPercentage => {
 		cputemp = cpuPercentage;
 	})
-	netstat.inOut().then(info => {
-		networktemp = info;
-	})
-	data = [
-		{id: 1, freeram: (os.freemem() / 1000 / 1000 / 1000).toFixed(2), cpusage: cputemp, network: networktemp}
-	];
-}, 2000);
+	networkhosts.forEach(function(host){
+		ping.sys.probe(host, function(isAlive){
+			networktemp[host] = [isAlive];
+		});
+	});
+	data = [{id: 1, freeram: (os.freemem() / 1000 / 1000 / 1000).toFixed(2), cpusage: cputemp, network: JSON.stringify(networktemp)}];
+}, process.env.SPEED);
 
 // Get
 app.get(['/', '/index'], function (req, res) {
@@ -54,3 +56,5 @@ app.get(['/', '/index'], function (req, res) {
 app.get('/api/nodemonitor', (req, res) => {
 	res.send(data);
 });
+
+
