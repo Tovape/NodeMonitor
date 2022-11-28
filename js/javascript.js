@@ -8,6 +8,7 @@ var ramchartdom = null;
 var ramchart = null;
 var ramchartext = null;
 var rampercentage = null;
+var ramtotal = null;
 var gpuchartdom = null;
 var gpuchart = null;
 var gpuchartext = null;
@@ -72,9 +73,43 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	};
 	
 	// Parse Static Data
-	staticdata = JSON.parse(document.getElementById("staticdata").getAttribute("value"));
-	//console.log(staticdata[0].cpu[0].model)
-	//console.log(staticdata[0].ram)
+	staticdata = JSON.parse(document.getElementById("staticdata").getAttribute("value"));	
+	document.getElementById("cpu-model").textContent = staticdata[0][0] + " " + staticdata[0][1];
+	document.getElementById("cpu-socket").textContent = staticdata[0][2];
+	document.getElementById("cpu-speed").textContent = staticdata[0][3] + " Ghz";
+	document.getElementById("cpu-cores").textContent = staticdata[0][4];
+	document.getElementById("hd-manufacturer").textContent = staticdata[1][0];
+	document.getElementById("hd-name").textContent = staticdata[1][1];
+	if (staticdata[1][5] == true) {document.getElementById("hd-bios").textContent = staticdata[1][2] + " | " + staticdata[1][4] + " | UEFI";} else {document.getElementById("hd-bios").textContent = staticdata[1][2] + " | " + staticdata[1][4];}
+	for (let i = 0; i < staticdata[2][0].length; i++) {
+		ramtotal += staticdata[2][0][0].size;
+		document.getElementById("specifications-ram").insertAdjacentHTML("afterend", `
+			<div>
+			<div><p>Model</p><p id="ram-model-` + i + `"></p></div>
+			<div><p>Manufacturer</p><p id="ram-manufacturer-` + i + `"></p></div>
+			<div><p>Type</p><p id="ram-type-` + i + `"></p></div>
+			<div><p>Speed</p><p id="ram-speed-` + i + `"></p></div>
+			<div><p>Factor</p><p id="ram-factor-` + i + `"></p></div>
+			<div><p>Size</p><p id="ram-size-` + i + `"></p></div>
+			</div>
+		`);
+		document.getElementById("ram-model-" + i).textContent = staticdata[2][0][0].partNum;
+		document.getElementById("ram-manufacturer-" + i).textContent = staticdata[2][0][0].manufacturer;
+		document.getElementById("ram-type-" + i).textContent = staticdata[2][0][0].type;
+		document.getElementById("ram-speed-" + i).textContent = staticdata[2][0][0].clockSpeed;
+		document.getElementById("ram-factor-" + i).textContent = staticdata[2][0][0].formFactor;
+		document.getElementById("ram-size-" + i).textContent = (staticdata[2][0][0].size / 1000 / 1000 / 1000).toFixed(2) + " GB";
+	}
+	ramtotal = parseFloat((ramtotal / 1000 / 1000 / 1000).toFixed(2));
+	document.getElementById("sys-browser-res").textContent = window.innerWidth + "x" + window.innerHeight;
+	document.getElementById("sys-screen-res").textContent = screen.width + "x" + screen.height;
+	document.getElementById("sys-color").textContent = screen.colorDepth;
+	document.getElementById("sys-language-pref").textContent = navigator.language || navigator.userLanguage;
+	temp = "Unknown Browser";if (navigator.userAgent.match(/chrome|chromium|crios/i)) {temp = "Chrome";} else if (navigator.userAgent.match(/firefox|fxios/i)) {temp = "Firefox";} else if (navigator.userAgent.match(/safari/i)) {temp = "Safari";} else if (navigator.userAgent.match(/opr\//i)) {temp = "Opera";} else if (navigator.userAgent.match(/edg/i)) {temp = "Edge";}
+	document.getElementById("sys-browser").textContent = temp;
+	document.getElementById("sys-os").textContent = staticdata[3][0];
+	document.getElementById("sys-hostname").textContent = staticdata[3][2];
+	document.getElementById("sys-hostname").textContent = staticdata[3][1];
 	
 	// Updates
 	var intervalId = window.setInterval(function(){
@@ -121,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	var chartram = [0];
 	temp = 0;
 	for (let i = 10; i > 1; i--) {
-		temp += staticdata[0].ram / 9;
+		temp += ramtotal / 9;
 		chartram.push(parseInt(temp.toFixed(2)))
 	}
 	rampercentage = chartram[9];
@@ -157,11 +192,13 @@ function updateUI(data) {
 	if (data[0].cpusage != undefined) {cpuchartext.textContent = data[0].cpusage + "%";}
 	if (data[0].freeram != undefined) {ramchartext.textContent = (100 - (data[0].freeram*100/rampercentage)).toFixed(2) + "%";}
 	// Network
-	for (let i = 0; i < Object.entries(JSON.parse(data[0].network)).length; i++) {
-		if (JSON.parse(data[0].network)[Object.keys(JSON.parse(data[0].network))[i]][0] === true) {
-			networkserverdom[i].querySelector("span").classList.add("active");
-		} else {
-			networkserverdom[i].querySelector("span").classList.remove("active");
+	if(networkserverdom !== null) {
+		for (let i = 0; i < Object.entries(JSON.parse(data[0].network)).length; i++) {
+			if (JSON.parse(data[0].network)[Object.keys(JSON.parse(data[0].network))[i]][0] === true) {
+				networkserverdom[i].querySelector("span").classList.add("active");
+			} else {
+				networkserverdom[i].querySelector("span").classList.remove("active");
+			}
 		}
 	}
 	// CPU Chart
@@ -175,7 +212,7 @@ function updateUI(data) {
 	// RAM Chart
 	if (data[0].freeram != undefined) {
 		ramchart.data.datasets.forEach((dataset) => {
-			dataset.data.push(parseInt((staticdata[0].ram - data[0].freeram).toFixed(2)));
+			dataset.data.push(parseInt((ramtotal - data[0].freeram).toFixed(2)));
 			dataset.data.shift();
 		});
 		ramchart.update();

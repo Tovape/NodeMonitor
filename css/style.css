@@ -6,6 +6,7 @@
 	--secondary: #0084FF;
 	--tertiary: #131318;
 	--white: #FFFFFF;
+	--softgray: #cccccc;
 	--gray: #A6A6AA;
 	--black: #000000;
 	--yellow: #FFB81F;
@@ -515,6 +516,58 @@ body::-webkit-scrollbar-thumb {
 	font-size: var(--smafont);
 	color: var(--white);
 	font-family: var(--montserrat);
+}
+
+/* Specifications */
+
+.specifications-mainstats {
+	display: grid;
+	grid-auto-rows: auto; 
+	grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+	grid-gap: 20px;
+}
+
+.specifications-mainstats-each {
+	background-color: var(--primary);
+    position: relative;
+    border-radius: var(--radius2);
+	font-family: var(--montserrat);
+	color: var(--white);
+	padding: 10px;
+}
+
+.specifications-mainstats-each div p {
+	text-align: left;
+	color: var(--gray);
+	vertical-align: top;
+}
+
+.specifications-mainstats-each > div {
+	margin-top: 10px;
+}
+
+.specifications-mainstats-each > div:not(:last-child) {
+	margin: 10px 0;
+}
+
+.specifications-mainstats-each > div > div:not(:last-child) {
+	border-bottom: 1px solid var(--gray);
+}
+
+.specifications-mainstats-each > div p {
+	padding: 6px 0;
+}
+
+.specifications-mainstats-each > div > div {
+	display: flex;
+	flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.specifications-mainstats-each > div > div p:nth-child(1) {
+	color: var(--softgray);
 }
 
 /* MediaQuery */
