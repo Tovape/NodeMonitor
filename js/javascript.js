@@ -93,12 +93,43 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			<div><p>Size</p><p id="ram-size-` + i + `"></p></div>
 			</div>
 		`);
+		// Needs conversion to [i]
 		document.getElementById("ram-model-" + i).textContent = staticdata[2][0][0].partNum;
 		document.getElementById("ram-manufacturer-" + i).textContent = staticdata[2][0][0].manufacturer;
 		document.getElementById("ram-type-" + i).textContent = staticdata[2][0][0].type;
 		document.getElementById("ram-speed-" + i).textContent = staticdata[2][0][0].clockSpeed;
 		document.getElementById("ram-factor-" + i).textContent = staticdata[2][0][0].formFactor;
 		document.getElementById("ram-size-" + i).textContent = (staticdata[2][0][0].size / 1000 / 1000 / 1000).toFixed(2) + " GB";
+	}
+	for (let i = 0; i < staticdata[5].length; i++) {
+		document.getElementById("specifications-storage").insertAdjacentHTML("afterend", `
+			<div>
+			<div><p>Name</p><p id="storage-name-` + i + `"></p></div>
+			<div><p>Manufacturer</p><p id="storage-manufacturer-` + i + `"></p></div>
+			<div><p>Type</p><p id="storage-type-` + i + `"></p></div>
+			<div><p>Size</p><p id="storage-size-` + i + `"></p></div>
+			<div><p>Interface</p><p id="storage-interface-` + i + `"></p></div>
+			</div>
+		`);
+		document.getElementById("storage-name-" + i).textContent = staticdata[5][i][1];
+		document.getElementById("storage-manufacturer-" + i).textContent = staticdata[5][i][2];
+		document.getElementById("storage-type-" + i).textContent = staticdata[5][i][0];
+		document.getElementById("storage-size-" + i).textContent = (parseFloat(staticdata[5][i][3] / 1000 / 1000 / 1000)).toFixed(2) + " GB";
+		document.getElementById("storage-interface-" + i).textContent = staticdata[5][i][4];
+	}
+	for (let i = 0; i < staticdata[6][0][0].length; i++) {
+		document.getElementById("specifications-gpu").insertAdjacentHTML("afterend", `
+			<div>
+			<div><p>Model</p><p id="gpu-model-` + i + `"></p></div>
+			<div><p>Manufacturer</p><p id="gpu-manufacturer-` + i + `"></p></div>
+			<div><p>VRAM</p><p id="gpu-vram-` + i + `"></p></div>
+			<div><p>Clock</p><p id="gpu-clock-` + i + `"></p></div>
+			</div>
+		`);
+		document.getElementById("gpu-model-" + i).textContent = staticdata[6][0][0][i].model;
+		document.getElementById("gpu-manufacturer-" + i).textContent = staticdata[6][0][0][i].vendor;
+		document.getElementById("gpu-vram-" + i).textContent = (parseFloat(staticdata[6][0][0][i].vram / 1000)).toFixed(2) + " GB";
+		document.getElementById("gpu-clock-" + i).textContent = (parseFloat(staticdata[6][0][0][i].clockCore / 1000)).toFixed(2) + " Ghz";
 	}
 	ramtotal = parseFloat((ramtotal / 1000 / 1000 / 1000).toFixed(2));
 	document.getElementById("sys-browser-res").textContent = window.innerWidth + "x" + window.innerHeight;
@@ -108,9 +139,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	temp = "Unknown Browser";if (navigator.userAgent.match(/chrome|chromium|crios/i)) {temp = "Chrome";} else if (navigator.userAgent.match(/firefox|fxios/i)) {temp = "Firefox";} else if (navigator.userAgent.match(/safari/i)) {temp = "Safari";} else if (navigator.userAgent.match(/opr\//i)) {temp = "Opera";} else if (navigator.userAgent.match(/edg/i)) {temp = "Edge";}
 	document.getElementById("sys-browser").textContent = temp;
 	document.getElementById("sys-os").textContent = staticdata[3][0];
+	document.getElementById("sys-release").textContent = staticdata[3][1];
 	document.getElementById("sys-hostname").textContent = staticdata[3][2];
-	document.getElementById("sys-hostname").textContent = staticdata[3][1];
-	
+	document.getElementById("battery-model").textContent = staticdata[4][1] + " - " + staticdata[4][0];
+	if (staticdata[4][2] == true) {document.getElementById("battery-status").textContent = "Charging";} else {document.getElementById("battery-status").textContent = "Unplugged";}
+	document.getElementById("battery-percent").textContent = staticdata[4][3] + "%";
+	if (staticdata[4][5] == true) {document.getElementById("battery-type").textContent = "Battery";} else {document.getElementById("battery-type").textContent = "Wall";}
+
 	// Updates
 	var intervalId = window.setInterval(function(){
 		fetchWait();

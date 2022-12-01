@@ -16,7 +16,7 @@ const si = require('systeminformation');
 var cputemp = null;
 var networktemp = {};
 var networkhosts = [process.env.ROUTER, 'google.com', 'espanastore.es'];
-var static_data = [[],[],[],[]];
+var static_data = [[],[],[],[],[],[],[],[]];
 var dynamic_data = [{id: 1, freeram: null}];
 
 // Port
@@ -64,17 +64,29 @@ si.osInfo().then(data => {
 	static_data[3][2] = data.hostname
 }).catch(error => console.error(error));
 
+si.battery().then(data => {
+	static_data[4][0] = data.model,
+	static_data[4][1] = data.manufacturer,
+	static_data[4][2] = data.acConnected,
+	static_data[4][3] = data.percent,
+	static_data[4][4] = data.maxCapacity,
+	static_data[4][5] = data.hasBattery
+}).catch(error => console.error(error));
+
+si.diskLayout().then(data => {
+	static_data[5].push([data[0].type, data[0].name, data[0].vendor, data[0].size, data[0].interfaceType])
+}).catch(error => console.error(error));
+
+si.graphics().then(data => {
+	static_data[6].push([data.controllers])
+}).catch(error => console.error(error));
+
+si.networkStats().then(data => {
+	static_data[7][0] = data.operstate
+}).catch(error => console.error(error));
+
+
 /*
-
-si.battery()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.graphics()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-
 si.currentLoad()
 .then(data => console.log(data))
 .catch(error => console.error(error));
@@ -83,9 +95,6 @@ si.processLoad()
 .then(data => console.log(data))
 .catch(error => console.error(error));
 
-si.diskLayout()
-.then(data => console.log(data))
-.catch(error => console.error(error));
 
 si.blockDevices()
 .then(data => console.log(data))
@@ -123,32 +132,6 @@ si.networkStats()
 .then(data => console.log(data))
 .catch(error => console.error(error));
 
-si.networkConnections()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.wifiNetworks()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-
-si.wifiInterfaces()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-
-si.wifiConnections()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-
-si.bluetoothDevices()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.cpuTemperature()
-.then(data => console.log(data))
-.catch(error => console.error(error));
 */
 
 // Updates
