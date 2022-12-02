@@ -81,54 +81,33 @@ si.graphics().then(data => {
 	static_data[6].push([data.controllers])
 }).catch(error => console.error(error));
 
-si.networkStats().then(data => {
-	static_data[7][0] = data.operstate
+si.networkGatewayDefault().then(data => {
+	static_data[7][0] = data
 }).catch(error => console.error(error));
 
+si.networkInterfaceDefault().then(data => {
+	static_data[7][1] = data
+}).catch(error => console.error(error));
 
 /*
-si.currentLoad()
+
+--> ADD returns wifi info (ssid, quality etc)
+si.wifiNetworks()
 .then(data => console.log(data))
 .catch(error => console.error(error));
 
-si.processLoad()
+--> ADD rj42 & wifi (filter only wifi and Ethernet)
+si.networkInterfaceDefault() --> wifi
 .then(data => console.log(data))
 .catch(error => console.error(error));
 
-
+--> ADD in specification smalles divs with each storage unit C:/D: DVD local etc 
 si.blockDevices()
 .then(data => console.log(data))
 .catch(error => console.error(error));
 
+--> ADD relation with above blockDevices (just add in same array), match D: or C: with the above, this one provides available space
 si.fsSize()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.fsStats()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.usb()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.audio()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.networkInterfaces()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.networkInterfaceDefault()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.networkGatewayDefault()
-.then(data => console.log(data))
-.catch(error => console.error(error));
-
-si.networkStats()
 .then(data => console.log(data))
 .catch(error => console.error(error));
 

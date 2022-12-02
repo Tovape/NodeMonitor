@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			<div><p>Size</p><p id="ram-size-` + i + `"></p></div>
 			</div>
 		`);
-		// Needs conversion to [i]
 		document.getElementById("ram-model-" + i).textContent = staticdata[2][0][0].partNum;
 		document.getElementById("ram-manufacturer-" + i).textContent = staticdata[2][0][0].manufacturer;
 		document.getElementById("ram-type-" + i).textContent = staticdata[2][0][0].type;
@@ -145,6 +144,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	if (staticdata[4][2] == true) {document.getElementById("battery-status").textContent = "Charging";} else {document.getElementById("battery-status").textContent = "Unplugged";}
 	document.getElementById("battery-percent").textContent = staticdata[4][3] + "%";
 	if (staticdata[4][5] == true) {document.getElementById("battery-type").textContent = "Battery";} else {document.getElementById("battery-type").textContent = "Wall";}
+	document.getElementById("network-mainstats-router").textContent = staticdata[7][0];
+	if (staticdata[7][1] == 'Wi-Fi') {
+		document.getElementById("lan").style.display = "none";
+	} else {
+		document.getElementById("wifi").style.display = "none";
+	}
 
 	// Updates
 	var intervalId = window.setInterval(function(){
