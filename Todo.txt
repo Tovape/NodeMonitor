@@ -1,4 +1,11 @@
 If consuption is high, do outline animation
+
 Add ASNI art
+
 skeleton loader css
+
 Ram js html generator fix [i]
+
+Add powershell HDD/GPU monitoring
+https://www.npmjs.com/package/node-powershell
+https://www.jesusninoc.com/07/15/listar-procesos-de-powershell-con-node-powershell-node-js-y-mostrarlos-en-una-web-con-express/

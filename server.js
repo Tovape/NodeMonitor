@@ -123,7 +123,7 @@ var intervalId = setInterval(function() {
 			networktemp[host] = [isAlive];
 		});
 	});
-	dynamic_data = [{id: 1, freeram: (os.freemem() / 1000 / 1000 / 1000).toFixed(2), cpusage: cputemp, network: JSON.stringify(networktemp)}];
+	dynamic_data = [{id: 1, freeram: (os.freemem() / 1000 / 1000 / 1000).toFixed(2), cpusage: cputemp, network: JSON.stringify(networktemp), uptime: os.uptime()}];
 }, process.env.SPEED);
 
 // Get
@@ -137,5 +137,3 @@ app.get(['/', '/index'], function (req, res) {
 app.get('/api/nodemonitor', (req, res) => {
 	res.send(dynamic_data);
 });
-
-

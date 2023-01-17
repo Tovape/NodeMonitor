@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 // Update Data
 function updateUI(data) {
 	// Text
+	document.getElementById("sys-uptime").textContent = (data[0].uptime / 3600).toFixed(2) + " Hours";
 	if (data[0].cpusage != undefined) {cpuchartext.textContent = data[0].cpusage + "%";}
 	if (data[0].freeram != undefined) {ramchartext.textContent = (100 - (data[0].freeram*100/rampercentage)).toFixed(2) + "%";}
 	// Network
