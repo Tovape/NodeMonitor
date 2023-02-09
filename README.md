@@ -6,3 +6,5 @@
 A eye-pleasing, lightweight server monitor for Windows, shows CPU/RAM/HDD/GPU & Temperatures
 
 Currently it only has English translation
+
+![nodemonitorthumbnail](https://user-images.githubusercontent.com/49490716/217850471-105c008a-a681-4adf-9ad5-c84c1ceb425e.png)
